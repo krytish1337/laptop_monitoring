@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Детекция ноутбуков на партах</title>
+</head>
+<body>
+    <h1>Детекция ноутбуков на партах</h1>
+
+    <input type="file" id="imageInput" accept="image/*">
+
+    <button onclick="processImage()">Запустить обработку</button>
+    <button onclick="downloadExcel()">Скачать отчёт Excel</button>
+
+    <h2 id="stats"></h2>
+
+    <img id="resultImage" src="" style="max-width: 700px; margin-top: 20px;">
+
+    <script>
+        async function processImage() {
+            const file = document.getElementById("imageInput").files[0];
+
+            if (!file) {
+                alert("Выберите изображение");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("image", file);
+
+            const response = await fetch("/process", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            document.getElementById("stats").innerText =
+                "Обнаружено ноутбуков: " + data.laptop_count;
+
+            document.getElementById("resultImage").src =
+                data.result_image + "?" + Date.now();
+        }
+
+        function downloadExcel() {
+            window.location.href = "/export_excel";
+        }
+    </script>
+</body>
+</html>

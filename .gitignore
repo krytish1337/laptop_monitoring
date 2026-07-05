@@ -1,0 +1,17 @@
+venv/
+.venv/
+
+__pycache__/
+*.pyc
+
+history.db
+.DS_Store
+
+static/uploads/*
+static/results/*
+
+*.xlsx
+*.pt
+
+.vscode/
+.idea/
